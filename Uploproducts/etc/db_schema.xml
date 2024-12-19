@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.magento.com/xml/schema/db" xsi:schemaLocation="http://www.magento.com/xml/schema/db ../../../lib/internal/Magento/Framework/Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="uplo_file_uploads" resource="default" engine="innodb" comment="File Upload Validation Log Table">
+        <column name="id" xsi:type="int" nullable="false" identity="true" unsigned="true" comment="ID"/>
+        <column name="upload_date" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" on_update="CURRENT_TIMESTAMP" comment="Date of Upload"/>
+        <column name="file_name" xsi:type="varchar" nullable="false" length="255" comment="File Name"/>
+        <column name="validation_result" xsi:type="varchar" nullable="false" length="50" comment="Validation Result"/>
+        <column name="failure_reason" xsi:type="text" nullable="true" comment="Reason for Failure"/>
+        <column name="error_lines" xsi:type="int" nullable="true" default="0" comment="Number of Lines with Errors"/>
+        <constraint xsi:type="primary" columns="id"/>
+    </table>
+</schema>

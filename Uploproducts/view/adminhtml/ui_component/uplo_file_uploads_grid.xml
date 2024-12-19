@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="component" xsi:type="string">Magento_Ui/js/grid/listing</item>
+        </item>
+    </argument>
+
+    <dataSource name="uplo_file_uploads_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">uplo_file_uploads_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="collection" xsi:type="string">Uplo\Uploproducts\Model\ResourceModel\UploFileUploads\Collection</argument>
+        </argument>
+    </dataSource>
+
+    <columns name="uplo_file_uploads_columns">
+        <column name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="file_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">File Name</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="validation_result">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Validation Result</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="failure_reason">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Failure Reason</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="error_lines">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Error Lines</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="upload_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Upload Date</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>
