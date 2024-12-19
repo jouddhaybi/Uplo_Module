@@ -1,0 +1,5 @@
+SKU ,Name ,Tiltle,Short Description ,Long Description,Url Key
+11223344r,proone,one,this is prod one ,this is prod one long,prodone
+22334411r,protwo,,this is prod two ,this is prod two long,www.prodtwo.com
+44112233r,,three,this is prod three ,this is prod three long,www.prodthree.com
+abc@123,profour,four,this is prod four ,this is prod four long,www.prodfour.com
