@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-   <menu>
-       <add id="Uplo_Uploproducts::menu"
+    <menu>
+      <add id="Uplo_Uploproducts::menu"
            title="Uplo" module="Uplo_Uploproducts"
            sortOrder="10"
            resource="Magento_Backend::content"
@@ -9,8 +9,8 @@
            <add id="Uplo_Uploproducts::menu_item"
            title="Upload CSV" module="Uplo_Uploproducts"
            sortOrder="10" parent="Uplo_Uploproducts::menu"
-           action="prodcsv/index/index"
+           action="prodcsv/grid/index"
            resource="Uplo_Uploproducts::menu_item"
            />
-   </menu>
+    </menu>
 </config>

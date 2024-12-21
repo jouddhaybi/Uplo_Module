@@ -1,135 +1,230 @@
 <div class='upload_section'>
-<div class='upload_prodcutcsv_section upload_col'>
-<p class='text'>
-    Choose<span class='bold_text'> products </span>CSV to upload: <input id='ProdCsvInput' type="file" accept=".csv">
-</p>
-</div>
-<div class='uploadcategorycsv_section upload_col'>
-    <p class='text'>
-        Choose<span class='bold_text'> categories </span>CSV to upload: <input type="file" accept=".csv">
-    </p>
-</div>
+    <div class='upload_prodcutcsv_section upload_col'>
+        <p class='text'>
+            Choose<span class='bold_text'> products </span>CSV to upload: <input id='ProdCsvInput' type="file"
+                accept=".csv">
+        </p>
+    </div>
+    <div class='uploadcategorycsv_section upload_col'>
+        <p class='text'>
+            Choose<span class='bold_text'> categories </span>CSV to upload: <input id='CatCsvInput' type="file"
+                accept=".csv">
+        </p>
+    </div>
 </div>
 
 <script>
-require(['jquery', 'jquery/ui'], function($){
-  $(document).ready( function() {
-    
-    function UploadCSV(){
-        var fileName;
-        var uploadDate;
-        var fileError=0;
-        var validation;
-        var failureReason='';
-        $('#ProdCsvInput').on('change', function (event) {
-            const file = event.target.files[0]; 
-            if (file && file.type === 'text/csv') {
-                fileName = file.name;
-                const reader = new FileReader();
-                const uploadTime = new Date();
-                uploadDate = uploadTime.toLocaleString();
-                reader.onload = function (e) {
-                    const csvData = e.target.result;
-                    const rows = csvData.split('\n');
-                    rows.forEach((row, index) => {
-                        const columns = row.split(',');
-                        // console.log(`Row ${index + 1}:`, columns);
-                        ////////////////////////////// check the SKU column ////////////////////////
-                        if(index > 0 && columns[0]){
-                            const firstRecord = columns[0].trim();
-                            const isAlphanumeric = /^[a-zA-Z0-9]+$/.test(firstRecord);
-                            if (isAlphanumeric) {
-                                // console.log(`The SKU "${firstRecord}" in Row ${index + 1} is alphanumeric`);
-                            } else {
-                                fileError++;
-                                failureReason += `The SKU "${firstRecord}" in Row ${index + 1} is not alphanumeric.`;
-                                // console.warn(`The SKU "${firstRecord}" in Row ${index + 1} is not alphanumeric ${fileError++}`);
+    require(['jquery', 'jquery/ui'], function($) {
+        $(document).ready(function() {
+
+            $('#ProdCsvInput').on('change', function(event) {
+                const file = event.target.files[0];
+                UploadProdCSV(file);
+            });
+
+            $('#CatCsvInput').on('change', function(event) {
+                const file = event.target.files[0];
+                UploadCatCSV(file);
+            });
+
+            function UploadCatCSV(file) {
+                var fileName;
+                var uploadDate;
+                var fileError = 0;
+                var validation;
+                var failureReason = '';
+                if (file && file.type === 'text/csv') {
+                    fileName = file.name;
+                    const reader = new FileReader();
+                    const uploadTime = new Date();
+                    uploadDate = uploadTime.toLocaleString();
+                    reader.onload = function(e) {
+                        const csvData = e.target.result;
+                        const rows = csvData.split('\n');
+                        rows.forEach((row, index) => {
+                            const columns = row.split(',');
+                            ////////////////////////////// check the SKU column ////////////////////////
+                            if (index > 0 && columns[0]) {
+                                const firstRecord = columns[0].trim();
+                                const isAlphanumeric = /^[a-zA-Z0-9]+$/.test(firstRecord);
+                                if (isAlphanumeric) {} else {
+                                    fileError++;
+                                    failureReason +=
+                                        `The SKU "${firstRecord}" in Row ${index + 1} is not alphanumeric.`;
+                                }
                             }
-                        }  
-                        ////////////////////////////// check the SKU column ////////////////////////
-                        ////////////////////////////// check the URL column ////////////////////////
-                        if(index > 0 && columns[5]) {
-                            const lastRecord = columns[columns.length - 1].trim(); // Trim spaces
-                            const urlPattern = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?([\/\w\.-]*)*\/?$/;
-                            const isValidUrl = urlPattern.test(lastRecord);
-                            if (isValidUrl) {
-                                // console.log(`The URL KEY "${lastRecord}" in row ${index + 1} is a valid URL.`);
-                            } else {
-                                fileError++;
-                                failureReason += `The URL KEY "${lastRecord}" in row ${index + 1} is NOT a valid URL.`;
-                                // console.warn(`The URL KEY "${lastRecord}" in row ${index + 1} is NOT a valid URL.`);
+                            ////////////////////////////// check the SKU column ////////////////////////
+                            ////////////////////////////// check the URL column ////////////////////////
+                            if (index > 0 && columns[5]) {
+                                const lastRecord = columns[columns.length - 1]
+                                    .trim(); // Trim spaces
+                                const urlPattern =
+                                    /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?([\/\w\.-]*)*\/?$/;
+                                const isValidUrl = urlPattern.test(lastRecord);
+                                if (isValidUrl) {} else {
+                                    fileError++;
+                                    failureReason +=
+                                        `The URL KEY "${lastRecord}" in row ${index + 1} is NOT a valid URL.`;
+                                }
                             }
-                        }
-                        ////////////////////////////// check the URL column ////////////////////////
-                        ////////////////////////////// check the required fields ////////////////////////
-                        if (columns.length === 0 || columns.every(col => !col.trim())) {
-                            return;
-                        }
+                            ////////////////////////////// check the URL column ////////////////////////
+                            ////////////////////////////// check the required fields ////////////////////////
+                            if (columns.length === 0 || columns.every(col => !col.trim())) {
+                                return;
+                            }
 
-                        if (!columns[0]?.trim() || !columns[1]?.trim() || !columns[2]?.trim()) {
-                            fileError++;
-                            failureReason += `Row ${index + 1} has empty record(s).`;
-                            // console.warn(`Row ${index + 1} has empty record(s).`);
-                        }
-                        ////////////////////////////// check the required fields ////////////////////////
+                            if (!columns[0]?.trim() || !columns[1]?.trim()) {
+                                fileError++;
+                                failureReason +=
+                                    `Row ${index + 1} has empty required record(s).`;
+                            }
+                            ////////////////////////////// check the required fields ////////////////////////
 
-                    });
-                    
-                    validation = fileError > 0 ? 'failed' : 'successful';
+                        });
 
-                    // if(validation){
-                    //     console.log(validation);
-                    // }
+                        validation = fileError > 0 ? 'failed' : 'successful';
 
-                    // if(failureReason){
-                    //     console.log(failureReason);
-                    // }
-                    // if(fileName){
-                    //     console.log(fileName);
-                    // }
-                    console.log(fileError);
-                    let testdata = [
-                        {
+
+                        // if(failureReason){
+                        //     console.log(failureReason);
+                        // }
+                        // if(fileName){
+                        //     console.log(fileName);
+                        // }
+                        console.log(fileError);
+                        let testdata = [{
                             validation: validation,
                             failureReason: failureReason,
                             fileName: fileName,
                             errorLines: fileError,
-                        },
-                    ];
+                        }, ];
 
-                    $.ajax({
-                        url: '<?php echo $this->getUrl("prodcsv/index/upload"); ?>',
-                        type: 'POST',
-                        dataType: 'json',
-                        data:JSON.stringify(testdata),
-                        success: function(response) {
-                            console.log('the ajax is working');
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(error);
-                        }
-                    });
-                    
-                };
-                reader.onerror = function () {
-                    // console.error('Could not read the file!');
-                    // fileError++;
-                };
-                reader.readAsText(file);
-            } else {
-                // alert('Please select a valid CSV file.');
-                // fileError++;
+                        $.ajax({
+                            url: '<?= $this->getUrl("prodcsv/grid/upload"); ?>',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: JSON.stringify(testdata),
+                            success: function(response) {
+                                console.log(response['message']);
+                                if (response['message'] == 'Success') {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                            }
+                        });
+
+                    };
+                    reader.onerror = function() {
+                        // console.error('Could not read the file!');
+                        // fileError++;
+                    };
+                    reader.readAsText(file);
+                } else {
+                    alert('Please select a valid CSV file.');
+                }
             }
 
-            
-            
-            
-            
-            // $('#ProdCsvInput').val('');
-        });
-    }
+            function UploadProdCSV(file) {
+                var fileName;
+                var uploadDate;
+                var fileError = 0;
+                var validation;
+                var failureReason = '';
+                if (file && file.type === 'text/csv') {
+                    fileName = file.name;
+                    const reader = new FileReader();
+                    const uploadTime = new Date();
+                    uploadDate = uploadTime.toLocaleString();
+                    reader.onload = function(e) {
+                        const csvData = e.target.result;
+                        const rows = csvData.split('\n');
+                        rows.forEach((row, index) => {
+                            const columns = row.split(',');
+                            ////////////////////////////// check the SKU column ////////////////////////
+                            if (index > 0 && columns[0]) {
+                                const firstRecord = columns[0].trim();
+                                const isAlphanumeric = /^[a-zA-Z0-9]+$/.test(firstRecord);
+                                if (isAlphanumeric) {} else {
+                                    fileError++;
+                                    failureReason +=
+                                        `The SKU "${firstRecord}" in Row ${index + 1} is not alphanumeric.`;
+                                }
+                            }
+                            ////////////////////////////// check the SKU column ////////////////////////
+                            ////////////////////////////// check the URL column ////////////////////////
+                            if (index > 0 && columns[5]) {
+                                const lastRecord = columns[columns.length - 1]
+                                    .trim(); // Trim spaces
+                                const urlPattern =
+                                    /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?([\/\w\.-]*)*\/?$/;
+                                const isValidUrl = urlPattern.test(lastRecord);
+                                if (isValidUrl) {} else {
+                                    fileError++;
+                                    failureReason +=
+                                        `The URL KEY "${lastRecord}" in row ${index + 1} is NOT a valid URL.`;
+                                }
+                            }
+                            ////////////////////////////// check the URL column ////////////////////////
+                            ////////////////////////////// check the required fields ////////////////////////
+                            if (columns.length === 0 || columns.every(col => !col.trim())) {
+                                return;
+                            }
 
-    UploadCSV();
-  });
-});
+                            if (!columns[0]?.trim() || !columns[1]?.trim() || !columns[2]
+                                ?.trim()) {
+                                fileError++;
+                                failureReason +=
+                                    `Row ${index + 1} has empty required record(s).`;
+                            }
+                            ////////////////////////////// check the required fields ////////////////////////
+
+                        });
+
+                        validation = fileError > 0 ? 'failed' : 'successful';
+
+
+                        // if(failureReason){
+                        //     console.log(failureReason);
+                        // }
+                        // if(fileName){
+                        //     console.log(fileName);
+                        // }
+                        console.log(fileError);
+                        let testdata = [{
+                            validation: validation,
+                            failureReason: failureReason,
+                            fileName: fileName,
+                            errorLines: fileError,
+                        }, ];
+
+                        $.ajax({
+                            url: '<?= $this->getUrl("prodcsv/grid/upload"); ?>',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: JSON.stringify(testdata),
+                            success: function(response) {
+                                console.log(response['message']);
+                                if (response['message'] == 'Success') {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                            }
+                        });
+
+                    };
+                    reader.onerror = function() {
+                        // console.error('Could not read the file!');
+                        // fileError++;
+                    };
+                    reader.readAsText(file);
+                } else {
+                    alert('Please select a valid CSV file.');
+                }
+            }
+        });
+    });
 </script>
