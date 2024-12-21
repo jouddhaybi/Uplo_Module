@@ -1,0 +1,8 @@
+.prodcsv-index-index .page-wrapper .page-content .page-columns .admin__old .main-col .upload_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.prodcsv-index-index .page-wrapper .page-content .page-columns .admin__old .main-col .upload_section .upload_col .text .bold_text {
+  font-weight: bolder;
+}

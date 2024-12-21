@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <body>
+       <referenceContainer name="content">
+            <block class="Magento\Backend\Block\Template" template="Uplo_Uploproducts::uploadcsv.phtml"/>
+            <!-- <uiComponent name="uplo_file_uploads_grid"/> -->
+            <uiComponent name="uplo_uploproducts_listing"/>
+       </referenceContainer>
+   </body>
+</page>

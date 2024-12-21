@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<virtualType name="Uplo\Uploproducts\Model\ResourceModel\UploFileUploads\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">uplo_file_uploads</argument>
+			<argument name="resourceModel" xsi:type="string">Uplo\Uploproducts\Model\ResourceModel\UploFileUploads</argument>
+		<argument name="primaryFieldName" xsi:type="string">id</argument>
+        <argument name="requestFieldName" xsi:type="string">id</argument>
+        </arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="uplo_uploproducts_listing_data_source" xsi:type="string">Uplo\Uploproducts\Model\ResourceModel\UploFileUploads\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+</config>
